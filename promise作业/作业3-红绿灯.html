@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .dom {
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            width: 70px;
+            height: 240px;
+            background-color: #333;
+            border-radius: 5px;
+        }
+
+        .light {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #fff;
+        }
+
+        .light:nth-child(1).active {
+            background-color: red;
+        }
+
+        .light:nth-child(2).active {
+            background-color: green;
+        }
+
+        .light:nth-child(3).active {
+            background-color: yellow;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dom">
+        <div class="red light"></div>
+        <div class="green light"></div>
+        <div class="yellow light"></div>
+    </div>
+
+    <script>
+        function timer(time) {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve();
+                }, time);
+            });
+        }
+        // 添加类名
+        function addColor(color) {
+            document.querySelector(color).classList.add('active');
+        }
+        // 删除类名
+        function delColor(color) {
+            document.querySelector(color).classList.remove('active');
+        }
+
+        // 灯的点亮与熄灭
+        async function light(light_color, time) {
+            addColor(light_color)
+            await timer(time)
+            delColor(light_color)
+        }
+
+
+        async function test() {
+            await light('.red', 2000);
+            await light('.green', 2000);
+            await light('.yellow', 2000);
+            // 递归重复调用实现循环
+            await test()
+        }
+        test()
+    </script>
+</body>
+
+</html>
